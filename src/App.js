@@ -28,7 +28,7 @@ const App = () => {
     <Container>
       <Heading />
       <Main>
-        {sideBar || <Menu links={links} />}
+        {sideBar && <Menu links={links} />}
         <Content links={links} />
       </Main>
     </Container>

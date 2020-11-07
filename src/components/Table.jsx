@@ -4,59 +4,24 @@ import Search from "./Search";
 import { useDispatch, useSelector } from "react-redux";
 import createUser from "../redux/actions/tableActions.js";
 
-const data = [
-  {
-    organization: "Suqayit Meliorasiya",
-    name: "Ayxan Faiq oglu",
-    fin: "09328402",
-    firstname: "Ayxan",
-    lastname: "X",
-  },
-  {
-    organization: "Suqayit Meliorasiya",
-    name: "Ayxan Faiq oglu",
-    fin: "09328402",
-    firstname: "Ayxan",
-    lastname: "X",
-  },
-  {
-    organization: "Suqayit Meliorasiya",
-    name: "Ayxan Faiq oglu",
-    fin: "09328402",
-    firstname: "Ayxan",
-    lastname: "X",
-  },
-  {
-    organization: "Suqayit Meliorasiya",
-    name: "Ayxan Faiq oglu",
-    fin: "09328402",
-    firstname: "Ayxan",
-    lastname: "X",
-  },
-  {
-    organization: "Suqayit Meliorasiya",
-    name: "Ayxan Faiq oglu",
-    fin: "09328402",
-    firstname: "Ayxan",
-    lastname: "X",
-  },
-  {
-    organization: "Suqayit Meliorasiya",
-    name: "Ayxan Faiq oglu",
-    fin: "09328402",
-    firstname: "Ayxan",
-    lastname: "X",
-  },
-  {
-    organization: "Suqayit Meliorasiya",
-    name: "Ayxan Faiq oglu",
-    fin: "09328402",
-    firstname: "Ayxan",
-    lastname: "X",
-  },
-];
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "@apollo/client";
+
+const getEmployees = gql`
+  query {
+    employees {
+      id
+      name
+      hiredOn
+      department {
+        name
+      }
+    }
+  }
+`;
 
 const Table = () => {
+  const { data, loading } = useQuery(getEmployees);
   const showUserModal = useSelector(
     (state) => state.tableReducer.showUserModal
   );
@@ -73,7 +38,7 @@ const Table = () => {
   return (
     <Container>
       {showUserModal && <CreateUser />}
-      <h1>this is some heading</h1>
+      <h1>Employees</h1>
       <ButtonRow>
         <div>
           <button onClick={createUserHandler}>new </button>
@@ -94,15 +59,21 @@ const Table = () => {
         </div>
       </ButtonRow>
       <TableWrapper>
-        {data.map((x, i) => (
-          <li onClick={showPop} key={i}>
-            <span>{x.organization}</span>
-            <span>{x.name}</span>
-            <span>{x.fin}</span>
-            <span>{x.firstname}</span>
-            <span>{x.lastname}</span>
-          </li>
-        ))}
+        <li>
+          <span>ID</span>
+          <span>Name</span>
+          <span>Hired On</span>
+          <span>Department</span>
+        </li>
+        {loading ||
+          data.employees.map((x, i) => (
+            <li onClick={showPop} key={i}>
+              <span>{x.id.substring(3, 5)}</span>
+              <span>{x.name}</span>
+              <span>{x.hiredOn.substring(0, 7)}</span>
+              <span>{x.department.name}</span>
+            </li>
+          ))}
       </TableWrapper>
     </Container>
   );
@@ -121,6 +92,7 @@ const CreateUser = () => {
   return (
     <CreateUserWrapper>
       <form action="">
+        <CloseButton onClick={createUserHandler}> X </CloseButton>
         <h2>Create New Record</h2>
         <div>
           <label htmlFor="">Firstname</label>
@@ -151,6 +123,19 @@ const CreateUser = () => {
     </CreateUserWrapper>
   );
 };
+
+const CloseButton = styled.button`
+  display: table-cell;
+  vertical-align: middle;
+  margin-left: auto;
+  margin-right: 0;
+  padding: 0.5em 0.8em;
+  background: #000066;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  font-weight: 900;
+`;
 
 const ButtonRow = styled.div`
   margin-bottom: 1em;
@@ -197,7 +182,7 @@ const Container = styled.section`
   border: 1px solid silver;
   border-radius: 4px;
   h1 {
-    font-size: 1.3em;
+    font-size: 1.4em;
     &::first-letter {
       text-transform: capitalize;
     }
@@ -211,8 +196,12 @@ const TableWrapper = styled.ul`
   display: flex;
   align-self: stretch;
   flex-direction: column;
-  & :first-child {
+  & li:first-child {
+    text-transform: uppercase;
+    font-weight: 700;
     border-radius: 4px 4px 0 0;
+    background: #000066;
+    color: #fff;
   }
   & :last-child {
     border-radius: 0 0 4px 4px;
@@ -220,13 +209,21 @@ const TableWrapper = styled.ul`
   li {
     padding: 0.5em;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    :not(:first-child):hover {
+      opacity: 0.5;
+      cursor: pointer;
+    }
+    span {
+      width: 25%;
+    }
   }
-  & li:nth-child(odd) {
-    background: #000066aa;
-    color: #fff;
+  & li:nth-child(even) {
+    background: #00006633;
   }
 `;
+
 const CreateUserWrapper = styled.div`
   background: #000000cc;
   position: absolute;
@@ -257,7 +254,8 @@ const CreateUserWrapper = styled.div`
     }
     input[type="submit"] {
       height: 2em;
-      margin: 0.2em;
+      width: 300px;
+      margin: 0.6em auto;
       border-radius: 4px;
       border: none;
       background: #000066;
