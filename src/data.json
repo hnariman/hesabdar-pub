@@ -1,0 +1,6 @@
+[
+  { "name": "Table", "path": "/one", "component": <Test /> },
+  { "name": "two", "path": "/two", "component": <Test2 /> },
+  { "name": "three", "path": "/three", "component": <Test /> },
+  { "name": "four", "path": "/four", "component": <Test2 /> }
+]
