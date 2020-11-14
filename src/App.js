@@ -15,10 +15,11 @@ import Menu from "./components/Menu.jsx";
 import Heading from "./components/Heading.jsx";
 import Content from "./components/Content.jsx";
 import HR from "./components/HR.jsx";
+import Login from "./components/Login";
 
 const links = [
-  { name: "App", path: "/hr", icon: users, component: <HR /> },
-  { name: "Corporate", path: "/two", icon: home, component: <Test /> },
+  { name: "HR", path: "/hr", icon: users, component: <HR /> },
+  { name: "Home", path: "/two", icon: home, component: <Test /> },
   { name: "Settings", path: "/three", icon: wrench, component: <Test /> },
   { name: "Delivery", path: "/four", icon: truck, component: <Test /> },
 ];
@@ -47,22 +48,6 @@ const Auth = () => {
   );
 };
 
-const Login = ({ setLogged }) => {
-  const auth = () => setLogged(true);
-  return (
-    <FormContainer>
-      <form action="">
-        <h1>HESABDAR LOGO</h1>
-        <label htmlFor="">username</label>
-        <input id="" type="text" name="" />
-        <label htmlFor="">password</label>
-        <input id="" type="password" name="" />
-        <button onClick={auth}>Login</button>
-      </form>
-    </FormContainer>
-  );
-};
-
 // ================= Styling =================
 const Container = styled.section`
   display: flex;
@@ -76,22 +61,4 @@ const Main = styled.div`
   height: 100%;
   display: flex;
   flex-direction: row;
-`;
-
-const FormContainer = styled.div`
-  form {
-    button {
-      border: none;
-      border-radius: 4px;
-      background: #000066;
-      color: #fff;
-      padding: 1em;
-      margin-top: 1em;
-    }
-    margin: 7em auto;
-    width: 20%;
-    display: flex;
-    gap: 0.5em;
-    flex-flow: column nowrap;
-  }
 `;

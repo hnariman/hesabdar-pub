@@ -6,10 +6,10 @@ import Test from "../Test.jsx";
 import Table from "./Table.jsx";
 
 const links = [
-  { name: "App", path: "/hr/one", component: <Table /> },
-  { name: "Corporate", path: "/hr/two", component: <Test /> },
-  { name: "Settings", path: "/hr/three", component: <Test /> },
-  { name: "Delivery", path: "/hr/four", component: <Test /> },
+  { name: "Employees", path: "/hr/one", component: <Table /> },
+  { name: "more", path: "/hr/two", component: <Test /> },
+  { name: "more", path: "/hr/three", component: <Test /> },
+  { name: "more", path: "/hr/four", component: <Test /> },
 ];
 
 const HR = () => {
