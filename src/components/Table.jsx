@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useState } from "react";
 import Search from "./Search";
 import { useDispatch, useSelector } from "react-redux";
 import createUser from "../redux/actions/tableActions.js";
 
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "@apollo/client";
-
 const getEmployees = gql`
   query {
     employees {
@@ -35,6 +34,14 @@ const Table = () => {
     e.stopPropagation();
     return alert(e.target.innerText);
   };
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = (e) => {
+    {
+      /* alert(e.target.innerText); */
+    }
+    setShowModal(!showModal);
+  };
+
   return (
     <Container>
       {showUserModal && <CreateUser />}
@@ -67,11 +74,12 @@ const Table = () => {
         </li>
         {loading ||
           data.employees.map((x, i) => (
-            <li onClick={showPop} key={i}>
+            <li onClick={toggleModal} key={i}>
               <span>{x.id.substring(3, 5)}</span>
               <span>{x.name}</span>
               <span>{x.hiredOn.substring(0, 7)}</span>
               <span>{x.department.name}</span>
+              {showModal && <Modal x={x} />}
             </li>
           ))}
       </TableWrapper>
@@ -80,6 +88,35 @@ const Table = () => {
 };
 
 export default Table;
+
+const Modal = ({ x }) => (
+  <ul
+    style={{
+      padding: "2em",
+      position: "absolute",
+      left: "10",
+      top: "10",
+      background: "white",
+      border: "1px solid black",
+      borderRadius: "10px",
+      zIndex: "2",
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        width: "40em",
+        flexDirection: "row",
+        justifyContent: "space-between",
+      }}
+    >
+      <p>{x.id}</p>
+      <p>{x.name}</p>
+      <p>{x.hiredOn}</p>
+      <p>{x.department.name}</p>
+    </div>
+  </ul>
+);
 
 const CreateUser = () => {
   const dispatch = useDispatch();

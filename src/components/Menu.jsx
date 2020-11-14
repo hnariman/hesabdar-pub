@@ -1,19 +1,14 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Icon } from "react-icons-kit";
+
 const Menu = ({ links }) => {
   return (
     <MenuWrapper>
       {links.map((x) => (
         <li>
           <Link exact to={x.path}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
+            <div style={{}}>
               <Icon icon={x.icon} size={24} />
               <p>{x.name}</p>
             </div>
@@ -23,6 +18,8 @@ const Menu = ({ links }) => {
     </MenuWrapper>
   );
 };
+
+export default Menu;
 
 const MenuWrapper = styled.ul`
   color: #fff;
@@ -35,6 +32,11 @@ const MenuWrapper = styled.ul`
   li {
     padding: 0;
     margin: 3em 1em;
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
   a {
     text-decoration: none;
@@ -48,5 +50,3 @@ const MenuWrapper = styled.ul`
     }
   }
 `;
-
-export default Menu;
